@@ -235,6 +235,19 @@ def create_venue_form():
 
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
+  name = request.form.get('name')
+  city = request.form.get('city')
+  state = request.form.get('state')
+  address = request.form.get('address')
+  phone = request.form.get('phone')
+  genres = request.form.getlist('genres[]')
+  facebook_link = request.form.get('facebook_link')
+
+
+  venue = Venue(name=name, city=city, state=state, address=address, phone=phone, facebook_link=facebook_link)
+
+  db.session.add(venue)
+  db.session.commit()
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
 
