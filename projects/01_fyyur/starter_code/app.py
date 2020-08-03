@@ -247,8 +247,6 @@ def create_venue_submission():
 
   db.session.add(venue)
   db.session.commit()
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
 
   # on successful db insert, flash success
   flash('Venue ' + request.form['name'] + ' was successfully listed!')
@@ -448,8 +446,6 @@ def create_artist_submission():
   image_link = request.form.get('image_link')
   facebook_link = request.form.get('facebook_link')
   # called upon submitting the new artist listing form
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
   artist = Artist(name=name, city=city, state=state, phone=phone, genres=genres, image_link=image_link, facebook_link=facebook_link)
 
   db.session.add(artist)
