@@ -401,12 +401,15 @@ def create_artist_submission():
   # called upon submitting the new artist listing form
   artist = Artist(name=name, city=city, state=state, phone=phone, genres=genres, image_link=image_link, facebook_link=facebook_link)
 
-  db.session.add(artist)
-  db.session.commit()
-  # on successful db insert, flash success
-  flash('Artist ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
+  try:
+    db.session.add(artist)
+    db.session.commit()
+    flash('Artist ' + request.form['name'] + ' was successfully listed!')
+  except:
+    flash('An error occurred. Artist ' + data.name + ' could not be listed.')
+    db.session.rollback()
+  finally: 
+    db.session.close()
   return render_template('pages/home.html')
 
 
