@@ -117,9 +117,9 @@ def venues():
         'num_upcoming_shows': len(venue.shows)
       }]
     }
-    matches = [i for i, e in enumerate(data) if e['city'] == venue.city and e['state'] == venue.state]
-    if matches:
-      data[matches[0]]['venues'].append({
+    match = next((x for x in data if x['city'] == venue.city), False)
+    if match:
+      match['venues'].append({
         'id': venue.id,
         'name': venue.name,
         'num_upcoming_shows': len(venue.shows)
@@ -129,7 +129,7 @@ def venues():
 
     if len(data) == 0:
       data.append(venue_info)
-      
+
   return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
