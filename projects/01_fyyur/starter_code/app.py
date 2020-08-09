@@ -45,8 +45,6 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(120))
     shows = db.relationship('Show', backref='venue', lazy=True)
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
-
 class Artist(db.Model):
     __tablename__ = 'artists'
 
@@ -63,7 +61,6 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(120))
     shows = db.relationship('Show', backref='shows', lazy=True)
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
 class Show(db.Model):
     __tablename__ = 'shows'
 
@@ -72,7 +69,6 @@ class Show(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
     venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), nullable=False)
 
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -101,8 +97,6 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
   venues = Venue.query.all()
 
   data = []
