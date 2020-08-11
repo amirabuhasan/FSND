@@ -59,7 +59,7 @@ class Artist(db.Model):
     website = db.Column(db.String(120))
     seeking_venue = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(120))
-    shows = db.relationship('Show', backref='shows', lazy=True)
+    shows = db.relationship('Show', backref='artist', lazy=True)
 
 class Show(db.Model):
     __tablename__ = 'shows'
@@ -145,13 +145,12 @@ def show_venue(venue_id):
   venue = Venue.query.get(venue_id)
   past_shows = []
   upcoming_shows = []
-
   for show in venue.shows:
     show_info = {
       "artist_id": show.artist.id,
       "artist_name": show.artist.name,
       "artist_image_link": show.artist.image_link,
-      "start_time": show.start_time
+      "start_time": show.start_time.strftime('%d/%m/%Y, %H:%M:%S')
     }
     if show.start_time <= datetime.now():
       past_shows.append(show_info)
@@ -248,12 +247,12 @@ def show_artist(artist_id):
       "venue_id": show.venue.id,
       "venue_name": show.venue.name,
       "venue_image_link": show.venue.image_link,
-      "start_time": show.start_time
+      "start_time": show.start_time.strftime('%d/%m/%Y, %H:%M:%S')
     }
     if show.start_time <= datetime.now():
-      past_shows.append(show_attributes)
+      past_shows.append(show_details)
     else:
-      upcoming_shows.append(show_attributes)
+      upcoming_shows.append(show_details)
 
   data = {
     **artist.__dict__,
@@ -357,6 +356,9 @@ def shows():
   # displays list of shows at /shows
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
+  shows = Show.query.all()
+
+  
   data=[{
     "venue_id": 1,
     "venue_name": "The Musical Hop",
